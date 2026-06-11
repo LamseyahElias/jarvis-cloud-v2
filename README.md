@@ -7,13 +7,13 @@ A 4-service monorepo for deploying **JARVIS** (Hermes AI agent) to Railway.
 ```
 jarvis-cloud-v2/
 ├── api-server/          # FastAPI backend + Agentic OS dashboard (PORT)
-│   ├── app/
-│   │   ├── __init__.py
-│   │   └── main.py      # All API routes ported from Agentic OS
-│   ├── static/
-│   │   └── index.html    # React dashboard (pixel-art office)
+│   ├── main.py          # All API routes — now supports PostgreSQL + SQLite
+│   ├── Dockerfile       # Docker-based build for Railway
+│   ├── Procfile         # Process runner
+│   ├── railway.json     # Railway deployment config
 │   ├── requirements.txt
-│   └── railway.json
+│   └── static/
+│       └── index.html   # React dashboard (pixel-art office)
 ├── telegram-bot/        # Telegram bot (TELEGRAM_TOKEN)
 │   ├── bot.py
 │   ├── requirements.txt
@@ -30,16 +30,12 @@ jarvis-cloud-v2/
 
 ## Services
 
-| Service           | Description                          | Env Vars              | Schedule     |
-|------------------|--------------------------------------|-----------------------|--------------|
-| **api-server**   | FastAPI + SQLite + React dashboard   | `PORT`                | Always on    |
-| **telegram-bot** | Telegram message relay               | `TELEGRAM_TOKEN`      | Always on    |
-| **belditalk-worker** | Facebook daily post             | `FB_PAGE_TOKEN`       | Daily 10 AM  |
-| **obsidian-vault** | Knowledge base (stub)             | —                     | Manual sync  |
+- **api-server** — FastAPI + PostgreSQL/SQLite + React dashboard (Always on)
+- **telegram-bot** — Telegram message relay (Always on)
+- **belditalk-worker** — Facebook daily post (Daily 10 AM)
+- **obsidian-vault** — Knowledge base stub (Manual sync)
 
 ## API Routes (api-server)
-
-All routes are ported exactly from the local Agentic OS:
 
 | Route              | Method | Description                |
 |--------------------|--------|----------------------------|
@@ -57,12 +53,16 @@ All routes are ported exactly from the local Agentic OS:
 | `/api/goals`       | POST   | Create new goal            |
 | `/api/chat`        | POST   | Chat with Hermes           |
 
+## Database
+
+- **PostgreSQL** — used when `DATABASE_URL` env var is set (Railway PG service)
+- **SQLite** — fallback when no `DATABASE_URL`, uses `DATA_DIR` (default: `/data/`)
+
 ## Deployment (Railway)
 
 Each service deploys separately within the same Railway project:
 
 ```bash
-# Each is a service pointed at its subdirectory
 railway login
 cd api-server && railway up
 cd ../telegram-bot && railway up
@@ -72,10 +72,14 @@ cd ../belditalk-worker && railway up
 ## Local Development
 
 ```bash
-# API server
+# API server (SQLite mode — no DATABASE_URL)
 cd api-server
 pip install -r requirements.txt
-python -m app.main
+python main.py
+
+# API server (PostgreSQL mode)
+cd api-server
+DATABASE_URL=postgresql://user:pass@host:5432/db python main.py
 
 # Telegram bot
 cd telegram-bot
@@ -88,6 +92,6 @@ FB_PAGE_TOKEN=xxx python belditalk_post.py
 
 ## Tech Stack
 
-- **Backend**: Python 3.13, FastAPI, SQLite (SQLAlchemy-ready)
+- **Backend**: Python 3.13, FastAPI, PostgreSQL / SQLite
 - **Frontend**: React 18 (CDN), Babel standalone, Canvas 2D
-- **Infra**: Railway (RAILPACK build, health checks, cron)
+- **Infra**: Railway (Docker build, health checks, cron)
