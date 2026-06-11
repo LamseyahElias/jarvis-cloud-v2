@@ -1,0 +1,5 @@
+# Don't commit this directory - railway.json maps to /hermes-agent/ rootDirectory
+# Skills are generated at first startup by hermes-agent
+skills/
+__pycache__/
+*.pyc

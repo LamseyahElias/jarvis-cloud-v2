@@ -1,0 +1,120 @@
+# JARVIS Cloud — Hermes Agent Config (auto-generated from template)
+# {{PORT}} is substituted by entrypoint.sh
+
+model:
+  default: deepseek-v4-flash
+  provider: deepseek
+  base_url: https://api.deepseek.com
+
+providers: {}
+fallback_providers: []
+credential_pool_strategies: {}
+
+toolsets:
+  - hermes-cli
+
+agent:
+  max_turns: 90
+  gateway_timeout: 1800
+  restart_drain_timeout: 180
+  api_max_retries: 5
+  service_tier: ""
+  tool_use_enforcement: auto
+  gateway_timeout_warning: 900
+  clarify_timeout: 600
+  gateway_notify_interval: 180
+  gateway_auto_continue_freshness: 3600
+  image_input_mode: auto
+  disabled_toolsets: []
+  verbose: false
+  reasoning_effort: medium
+
+terminal:
+  backend: local
+  cwd: /app
+  timeout: 180
+  auto_source_bashrc: false
+
+privacy:
+  redact_pii: false
+
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  memory_char_limit: 2200
+  user_char_limit: 1375
+  nudge_interval: 10
+  flush_min_turns: 6
+
+delegation:
+  max_iterations: 50
+  child_timeout_seconds: 600
+  max_concurrent_children: 3
+  max_spawn_depth: 1
+  orchestrator_enabled: true
+  subagent_auto_approve: false
+
+skills:
+  external_dirs: []
+  template_vars: true
+  inline_shell: false
+  inline_shell_timeout: 10
+  guard_agent_created: false
+  creation_nudge_interval: 15
+
+telegram:
+  reactions: false
+  channel_prompts: {}
+  allowed_chats: "7044443781"
+
+logging:
+  level: INFO
+  max_size_mb: 5
+  backup_count: 3
+  memory_monitor:
+    enabled: true
+    interval_seconds: 300
+
+sessions:
+  auto_prune: false
+  retention_days: 90
+  vacuum_after_prune: true
+  min_interval_hours: 24
+  write_json_snapshots: false
+
+security:
+  allow_private_urls: false
+  redact_secrets: true
+  tirith_enabled: true
+  tirith_path: tirith
+  tirith_timeout: 5
+  tirith_fail_open: true
+
+cron:
+  wrap_response: true
+  max_parallel_jobs: null
+
+platform_toolsets:
+  cli:
+    - hermes-cli
+  telegram:
+    - hermes-telegram
+  discord:
+    - hermes-discord
+  slack:
+    - hermes-slack
+
+plugins:
+  enabled: []
+  disabled: []
+
+gateway:
+  platforms:
+    api_server:
+      enabled: true
+      host: 0.0.0.0
+      port: {{PORT}}
+    telegram:
+      enabled: false  # Phase 1: no Telegram. Enable in Phase 2 after killing local.
+
+_config_version: 23
