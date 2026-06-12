@@ -140,7 +140,7 @@ def handle_message(chat_id: int, text: str):
             logger.error(f"Failed to fetch agents: {e}")
             return "⚠️ Could not reach API server. It may still be starting."
     else:
-        return f"🤖 Message received. Use `/help` for available commands."
+        return ask_deepseek(text)
 
 
 def polling_loop():
