@@ -1,0 +1,67 @@
+{
+  "business-operations": {
+    "archived_at": null,
+    "created_at": "2026-05-24T01:05:13.243438+00:00",
+    "created_by": "agent",
+    "last_patched_at": "2026-06-11T21:43:23.034595+00:00",
+    "last_used_at": "2026-06-11T23:12:14.588504+00:00",
+    "last_viewed_at": "2026-06-11T23:12:14.577622+00:00",
+    "patch_count": 36,
+    "pinned": false,
+    "state": "active",
+    "use_count": 22,
+    "view_count": 22
+  },
+  "cloud-hosting": {
+    "archived_at": null,
+    "created_at": "2026-06-11T20:45:40.375980+00:00",
+    "created_by": "agent",
+    "last_patched_at": "2026-06-11T23:12:05.275035+00:00",
+    "last_used_at": "2026-06-11T23:39:17.624222+00:00",
+    "last_viewed_at": "2026-06-11T23:39:17.611447+00:00",
+    "patch_count": 14,
+    "pinned": false,
+    "state": "active",
+    "use_count": 9,
+    "view_count": 9
+  },
+  "railway-deployment": {
+    "archived_at": null,
+    "created_at": "2026-06-11T22:07:58.854131+00:00",
+    "created_by": "agent",
+    "last_patched_at": "2026-06-11T23:40:22.033240+00:00",
+    "last_used_at": "2026-06-11T23:40:38.311863+00:00",
+    "last_viewed_at": "2026-06-11T23:40:38.294651+00:00",
+    "patch_count": 13,
+    "pinned": false,
+    "state": "active",
+    "use_count": 15,
+    "view_count": 15
+  },
+  "streamlit-dashboard": {
+    "archived_at": null,
+    "created_at": "2026-05-23T13:18:35.668859+00:00",
+    "created_by": "agent",
+    "last_patched_at": "2026-05-23T20:25:32.293194+00:00",
+    "last_used_at": "2026-05-23T20:24:53.953161+00:00",
+    "last_viewed_at": "2026-05-23T20:24:53.943082+00:00",
+    "patch_count": 12,
+    "pinned": false,
+    "state": "active",
+    "use_count": 6,
+    "view_count": 6
+  },
+  "trading-analysis": {
+    "archived_at": null,
+    "created_at": "2026-05-22T01:16:36.473063+00:00",
+    "created_by": "agent",
+    "last_patched_at": "2026-06-11T14:22:10.159126+00:00",
+    "last_used_at": "2026-06-12T05:09:50.799294+00:00",
+    "last_viewed_at": "2026-06-12T05:09:50.792831+00:00",
+    "patch_count": 83,
+    "pinned": false,
+    "state": "active",
+    "use_count": 46,
+    "view_count": 46
+  }
+}
