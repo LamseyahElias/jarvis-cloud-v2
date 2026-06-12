@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auth Callback</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #1A1A2E;
+      color: #FDF6EC;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 640px;
+      width: 90%;
+      text-align: center;
+    }
+    .logo { font-size: 48px; margin-bottom: 16px; }
+    h1 { font-size: 24px; margin-bottom: 8px; color: #D4A24E; }
+    p { color: #aaa; margin-bottom: 24px; line-height: 1.6; }
+    .status {
+      padding: 16px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 12px;
+      word-break: break-all;
+      margin-bottom: 20px;
+    }
+    .success { background: rgba(45, 106, 79, 0.2); border: 1px solid #2D6A4F; color: #6FCF97; }
+    .error { background: rgba(199, 91, 47, 0.2); border: 1px solid #C75B2F; color: #E8A080; }
+    .token-box {
+      background: #0D0D1A;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: monospace;
+      font-size: 11px;
+      word-break: break-all;
+      color: #D4A24E;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+      margin: 16px 0;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #C75B2F;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 12px;
+    }
+    .btn:hover { background: #B04D26; }
+    .hidden { display: none; }
+    .instructions {
+      text-align: left;
+      background: rgba(255,255,255,0.03);
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+    .instructions ol {
+      padding-left: 20px;
+      color: #ccc;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🪬</div>
+    <h1>OAuth Callback</h1>
+    <p>Token capture page — update the redirect_uri in your OAuth link to point here</p>
+
+    <div id="loading" class="status success">⏳ Processing authentication...</div>
+
+    <div id="success" class="hidden">
+      <div class="status success">✅ Authentication successful!</div>
+      <p>Your access token is below. Send this to the agent.</p>
+      <div class="token-box" id="tokenDisplay"></div>
+      <button class="btn" onclick="copyToken()">📋 Copy Token</button>
+    </div>
+
+    <div id="error" class="hidden">
+      <div class="status error">❌ No token found</div>
+      <p>No access token detected in the URL. Authorize via the OAuth link first.</p>
+    </div>
+  </div>
+
+  <script>
+    function getHashParams() {
+      const hash = window.location.hash.substring(1);
+      const params = {};
+      hash.split('&').forEach(pair => {
+        const [key, value] = pair.split('=');
+        if (key) params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      });
+      return params;
+    }
+
+    function getQueryParams() {
+      const params = {};
+      window.location.search.substring(1).split('&').forEach(pair => {
+        const [key, value] = pair.split('=');
+        if (key) params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      });
+      return params;
+    }
+
+    const hashParams = getHashParams();
+    const queryParams = getQueryParams();
+    const token = hashParams.access_token || queryParams.access_token || queryParams.code || '';
+
+    const loading = document.getElementById('loading');
+    const success = document.getElementById('success');
+    const error = document.getElementById('error');
+
+    if (token) {
+      loading.classList.add('hidden');
+      success.classList.remove('hidden');
+      document.getElementById('tokenDisplay').textContent = token;
+    } else {
+      loading.classList.add('hidden');
+      error.classList.remove('hidden');
+    }
+
+    function copyToken() {
+      navigator.clipboard.writeText(
+        document.getElementById('tokenDisplay').textContent
+      ).then(() => {
+        const btn = document.querySelector('.btn');
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => { btn.textContent = '📋 Copy Token'; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
