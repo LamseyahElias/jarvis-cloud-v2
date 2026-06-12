@@ -112,7 +112,7 @@ gateway:
   platforms:
     api_server:
       enabled: true
-      host: 0.0.0.0
+      host: 127.0.0.1
       port: {{PORT}}
     telegram:
       enabled: false  # Phase 1: no Telegram. Enable in Phase 2 after killing local.
