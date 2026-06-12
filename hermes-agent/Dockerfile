@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Install hermes-agent (pin to same version as local for compatibility)
+# Build: 2026-06-12 v2 — added skills directory + aiohttp + 127.0.0.1 fix
 RUN pip install --no-cache-dir hermes-agent==0.14.0
 
 # Install web + telepresence deps for API server and Telegram
