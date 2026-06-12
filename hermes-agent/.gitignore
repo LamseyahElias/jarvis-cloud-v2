@@ -1,5 +1,3 @@
-# Don't commit this directory - railway.json maps to /hermes-agent/ rootDirectory
-# Skills are generated at first startup by hermes-agent
-skills/
+# Skills are bundled in Docker image via COPY skills/ in Dockerfile
 __pycache__/
 *.pyc
