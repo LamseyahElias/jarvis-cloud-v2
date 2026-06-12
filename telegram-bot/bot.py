@@ -17,7 +17,10 @@ logging.basicConfig(
 logger = logging.getLogger("telegram-bot")
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+
 if not TELEGRAM_TOKEN:
+    raise ValueError("TELEGRAM_BOT_TOKEN environment variable is required")
+
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
 
 def ask_deepseek(message):
