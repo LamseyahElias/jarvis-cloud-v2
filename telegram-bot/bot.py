@@ -18,6 +18,33 @@ logger = logging.getLogger("telegram-bot")
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 if not TELEGRAM_TOKEN:
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
+
+def ask_deepseek(message):
+    if not DEEPSEEK_API_KEY:
+        return "DeepSeek API key is missing."
+
+    try:
+        with httpx.Client(timeout=30) as client:
+            resp = client.post(
+                "https://api.deepseek.com/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "model": "deepseek-chat",
+                    "messages": [
+                        {"role": "system", "content": "You are JARVIS, Elias Lamseyah's AI assistant. Answer clearly and helpfully."},
+                        {"role": "user", "content": message},
+                    ],
+                },
+            )
+            resp.raise_for_status()
+            return resp.json()["choices"][0]["message"]["content"]
+    except Exception as e:
+        logger.error(f"DeepSeek error: {e}")
+        return "AI brain error. Check Railway logs."
     raise ValueError("TELEGRAM_BOT_TOKEN environment variable is required")
 
 ALLOWED_USERS = os.environ.get("ALLOWED_USERS", "7044443781")
