@@ -16,8 +16,8 @@ WORKDIR /app
 # Install hermes-agent (pin to same version as local for compatibility)
 RUN pip install --no-cache-dir hermes-agent==0.14.0
 
-# Install telepresence so the agent can show presence / typing indicators
-RUN pip install --no-cache-dir httpx
+# Install web + telepresence deps for API server and Telegram
+RUN pip install --no-cache-dir httpx aiohttp
 
 # Copy skills directory (13MB, 609 files — includes all categories)
 COPY skills/ /app/skills/
