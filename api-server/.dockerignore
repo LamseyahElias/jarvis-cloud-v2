@@ -1,0 +1,7 @@
+# Ignore everything except what the Dockerfile needs
+*
+!requirements.txt
+!main.py
+!Procfile
+!static/
+!static/index.html
