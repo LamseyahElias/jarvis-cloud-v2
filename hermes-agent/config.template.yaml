@@ -115,6 +115,6 @@ gateway:
       host: 0.0.0.0
       port: {{PORT}}
     telegram:
-      enabled: false  # Phase 1: no Telegram. Enable in Phase 2 after killing local.
+      enabled: true   # Phase 2: Telegram active. Rollback = revert to false + deploy.
 
 _config_version: 23
